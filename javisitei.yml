@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: API Já Visitei Mapa do Brasil
+  description: API para o portal Já Visitei Mapa do Brasil.
+  version: 0.0.1
+  contact:
+    name: Suporte
+    email: wellington@wton.com.br
+    url: https://javisitei.com.br
+  license:
+    name: "Todos os direitos reservados: Wellington dos Santos Castor"
+servers:
+- url: https://javisitei.com.br/
+  description: Já Visitei API
+paths:
+  /arquipelago:
+    get:
+      summary: Efetua login gerando token
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Login"
+        404:
+          $ref: "#/components/responses/404Error"
+  /arquipelago/{id_arquipelago}:
+    get:
+      summary: Efetua login gerando token
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Login"
+        404:
+          $ref: "#/components/responses/404Error"
+  /arquipelago/{id_arquipelago}/ilha:
+    get:
+      summary: Efetua login gerando token
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Login"
+        404:
+          $ref: "#/components/responses/404Error"
+  /perfil/login:
+    post:
+      summary: Efetua login gerando token
+      parameters:
+        - name: email
+          in: query
+          description: Informar Email 
+          schema:
+            type: string
+        - name: senha
+          in: query
+          description: Senha criptografa
+          schema:
+            type: string
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Login"
+        404:
+          $ref: "#/components/responses/404Error"
+  /regiao/tipo:
+    get:
+      summary: Recupera uma entidade pelo ID
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TipoRegiao"
+security: 
+- auth: []
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        expiracao:
+          type: string
+          format: date
+        token:
+          type: string
+        validacao:
+          type: object
+          items:
+            type: object
+            properties:
+              codigo:
+                type: integer
+              mensagem:
+                type: array
+              sucesso:
+                type: boolean
+    TipoRegiao:
+      type: array
+      items:
+        $ref: "#/components/schemas/TipoRegiao"
+  responses:
+    404Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
